@@ -7,9 +7,63 @@
     <title>Bootcamp Javascript 001</title>
 </head>
 <body>
-    <h1>Bootcamp Javascript</h1>
-    <p>Bienvenidos</p>
-    <p>Bootcamp Javascript and node</p>
+    <form action="index.html">
+        <div>
+            <label for="nombre">Nombre</label>
+            <input type="text" name="nombre" id="nombre">
+        </div>
+        <div>
+            <label for="cantidad">Cantidad</Cabel>
+            <input type="number" name="cantidad" Cd="cantidad">        
+        </div>
+        <div>
+            <label for="precio">Precio</label>
+            <input type="number" name="precio" id="precio">
+        </div>
+        <div>
+            <label for="categoria">Categoría</label>
+            <select name="categoria" id="categoria">
+                <option value="1">Categoría 1</option>
+                <option value="2">Categoría 2</option>
+                <option value="3">Categoría 3</option>
+                <option value="4">Categoría 4</option>
+            </select>
+        </div>
+        <div>
+            <button type="submit">Guardar</button>
+        </div>
+    </form>
+
+    <!--Table Begins-->
+    <table>
+        <thead>
+            <tr>
+                <td>Código</td>
+                <td>Nombre</td>
+                <td>Cantidad</td>
+                <td>Precio</td>
+                <td>Total</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            
+                <!--OJO Los <tr></tr> se escriben desde Javascript-->
+
+                <!--  <td><a href="#">Editar</a> | <a href="#">Eliminar</a></td>   -->
+                <!--# indica que no recargue y la info se maneja en la misma pagina-->
+            
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">Totales:</td> <!--colspan="2" indica que ocupe dos columnas-->
+                <td id="cantidad-total">0</td>
+                <td id="precio-total">0</td>
+                <td id="gran-total">0</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
     
     <script src="index.js"></script>
 </body>
