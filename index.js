@@ -4,6 +4,9 @@ const form = document.getElementsByTagName("form")[0];
 //Estas referencias a las ubicaciones de los campos del formulario sirven para editar los campos. Despues de recuperarlos
 //se escribiran en estos campos. Utilizamos el id de los campos
 /** @type {HTMLInputElement} */
+const inputCodigo = document.getElementById("codigo");
+
+/** @type {HTMLInputElement} */
 const inputNombre = document.getElementById("nombre");
 
 /** @type {HTMLInputElement} */
@@ -27,6 +30,7 @@ let indice = 0;
 let cantidadTotal =0;
 let preciosTotales =0;
 let granTotal=0;
+let currentRow;
 
 //Suscribiendonos al evento "Submit" del formulario y al pasar nos envia a la funcion "onSubmit" ("onSubmit lo 
 //pusimos nosotros. puede ser cualquier nombre que nosotros le pongamos a la funcion")
@@ -43,8 +47,9 @@ function onSubmit(event){
     const data = new FormData(form);
     const values = Array.from(data.entries());
     
-    const [frmNombre,frmCantidad,frmPrecio,frmCategoria] = values;
+    const [frmCodigo, frmNombre,frmCantidad,frmPrecio,frmCategoria] = values;
     
+    let codigo = frmCodigo[1];
     const nombre = frmNombre[1];
     const cantidad = frmCantidad[1];
     const precio = frmPrecio[1];
@@ -57,29 +62,41 @@ function onSubmit(event){
     cantidadTotal = parseFloat(cantidad) + cantidadTotal;
     preciosTotales = parseFloat(precio) + preciosTotales;
     granTotal = parseFloat(total) + granTotal;
-    
-    //para el No es decir el indice de la fila
-    indice ++;
 
+
+    let tr; //para colocar la fila que estamos editando
+
+    //si no hay ningun valor, crear codigo y una fila -- Esto se hace para el edit para que no genere una linea nueva sino que solo 
+    //edite la actual
+    if (!codigo)
+    {
+        //para el No es decir el indice de la fila
+        indice++;
+        codigo = indice;
+        tr = document.createElement("tr");
+        //Se indica que tr es un elemento hijo de tbody . Se coloca dentro del body
+        tbody.appendChild(tr);
+    }
+    else
+    {
+        tr = currentRow;  //si ya hay una fila
+    }
     
-    const tr = document.createElement("tr");
-    
+   
     //Para colocar la categoria en la fila. dataset.categoria es un metodo de javascript
     tr.dataset.categoria = categoria;
-    
-    //Se indica que tr es un elemento hijo de tbody . Se coloca dentro del body
-    tbody.appendChild(tr);
+
     
     //utilizaremos literal string para escribir codigo html desde javascript 
     tr.innerHTML = `
-        <td>${indice}</td>
+        <td>${codigo}</td>
         <td>${nombre}</td>
         <td>${cantidad}</td>
         <td>${precio}</td>
         <td>${total}</td>
         <td><a href="#" onclick="onEdit(event)">Editar</a> | <a href="#" onclick="onDelete(event)">Eliminar</a></td>
     `;
-
+    
     cantidadTotalElement.innerText = cantidadTotal;
     precioTotalElement.innerText = preciosTotales;
     granTotalElement.innerText = granTotal;
@@ -105,13 +122,14 @@ function onEdit(event){
 
     const [tdCodigo, tdNombre, tdCantidad, tdPrecio] = celdas;
     
+    inputCodigo.value = tdCodigo.innerText;
     inputNombre.value = tdNombre.innerText;
     inputCantidad.value = tdCantidad.innerText;
     inputPrecio.value = tdPrecio.innerText;
     selectCategoria.value = tr.dataset.categoria;
 
-    console.log(celdas)
-
+    currentRow = tr;
+    
 }
 
 
