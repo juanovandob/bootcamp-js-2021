@@ -94,7 +94,16 @@ function onSubmit(event){
         <td>${cantidad}</td>
         <td>${precio}</td>
         <td>${total}</td>
-        <td><a href="#" onclick="onEdit(event)">Editar</a> | <a href="#" onclick="onDelete(event)">Eliminar</a></td>
+        <td>
+            <div class="btn-group">
+                <a title="Editar" href="#" onclick="onEdit(event)" class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-pencil-square"></i>
+                </a>
+                <a title="Eliminar" href="#" onclick="onDelete(event)" class="btn btn-sm btn-outline-danger">
+                    <i class="bi bi-trash"></i>
+                </a>
+            </div>
+        </td>
     `;
     
     cantidadTotalElement.innerText = cantidadTotal;
@@ -114,8 +123,8 @@ function onEdit(event){
     
     //indicamos al editor de codigo que tipo de variable estamos defiendo
     /** @type {HTMLElement} */
-    const anchor = event.target;
-    const tr = anchor.parentElement.parentElement;
+    const anchor = event.currentTarget;
+    const tr = anchor.parentElement.parentElement.parentElement;
 
     //Lee los datos de la fila que se seleccionó
     const celdas = tr.getElementsByTagName("td");
@@ -140,11 +149,11 @@ function onEdit(event){
 function onDelete(event){
     //indicamos al editor de codigo que tipo de variable estamos defiendo
     /** @type {HTMLElement} */
-    const anchor = event.target;
+    const anchor = event.currentTarget;
     //Nos da el elemento (donde esta el elemento) 
     //anchor.parentElement nos indica el <td> donde está el enlace ... si hacemos anchor.parentElement.parentElemente nos
     //indicara la <tr> o sea la fila a la que pertenece, es decir capturamos su ubicación. (en la tabla)
-    const tr = anchor.parentElement.parentElement;
+    const tr = anchor.parentElement.parentElement.parentElement;
     
     //ahora como ya esta referenciado tbody le decimos que elimine ese tr especifico
     tbody.removeChild(tr);
