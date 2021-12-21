@@ -53,6 +53,7 @@ const reducer = (state, action) => {
                 ]
             }
     }
+
     if(action.type == "producto-modificado")
     {
         const producto = action.payload;
@@ -73,6 +74,7 @@ const reducer = (state, action) => {
             productos
         }        
     }
+
     if(action.type == "producto-eliminado")
     {
         //Para eliminar el producto solo vamos a filtrar el arreglo de productos que no sean iguales al seleccionado,
@@ -84,6 +86,16 @@ const reducer = (state, action) => {
             productos
         }
     }
+
+    if(action.type == "producto-seleccionado")
+    {
+        const codigo = action.payload.codigo;
+        return{
+            ...state,
+            producto: state.productos.find(x => x.codigo == codigo) || {} //si no hay producto retorne un objeto vacio
+        }
+    }
+
     return state;
 };
 
@@ -98,9 +110,20 @@ store.subscribe(() => {
     {
         latestState = currentState;
         console.log("estado: ", currentState);
+        renderForm(currentState.producto);
         renderTable(currentState.productos)
     }
 });
+
+//Función que escribe en el formulario el producto seleccionado para editar
+function renderForm(producto)
+{
+    inputCodigo.value = producto.codigo || "";
+    inputNombre.value = producto.nombre || ""; //funciona como un if, si no hay nombre lo deja vacio
+    inputCantidad.value = producto.cantidad || "";
+    inputPrecio.value = producto.precio || "";
+    selectCategoria.value = producto.categoria || 1;
+}
 
 //FUNCIÓN QUE DIBUJA LAS FILAS DE LA TABLA
 function renderTable(productos){
@@ -142,6 +165,15 @@ function renderTable(productos){
             })
         });
 
+        editar.addEventListener("click", (event) =>{
+            event.preventDefault();
+            store.dispatch({
+                type: "producto-seleccionado",
+                payload:{
+                    codigo: item.codigo
+                }
+            })
+        });
 
         return tr;
     });
@@ -191,6 +223,63 @@ function renderTable(productos){
     }
 
 }
+
+form.addEventListener("submit", onSubmit);
+
+/**
+ * 
+ * @param {Event} event 
+ */
+
+function onSubmit(event)
+{
+    event.preventDefault();
+    
+    const data = new FormData(form);
+    const values = Array.from(data.entries());
+    
+    const [frmCodigo, frmNombre,frmCantidad,frmPrecio,frmCategoria] = values;
+    
+    const codigo = parseInt(frmCodigo[1]);
+    const nombre = frmNombre[1];
+    const cantidad = parseFloat(frmCantidad[1]);
+    const precio = parseFloat(frmPrecio[1]);
+    const categoria = parseInt(frmCategoria[1]);
+
+    if(codigo)
+    {
+        store.dispatch({
+            type: "producto-modificado",
+            payload:{
+                codigo,
+                nombre,
+                cantidad,
+                precio,
+                categoria
+            } 
+        })
+    }
+    else{
+        store.dispatch({
+            type: "producto-agregado",
+            payload:{
+                nombre,
+                cantidad,
+                precio,
+                categoria
+            } 
+        })
+    }
+
+    store.dispatch({
+        type: "producto-seleccionado",
+        payload:{
+            codigo: null
+        }
+    })
+    
+}
+
 
 store.dispatch({
     type: "producto-agregado",
