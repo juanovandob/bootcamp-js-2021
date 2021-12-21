@@ -268,7 +268,7 @@ function onSubmit(event)
                 precio,
                 categoria
             } 
-        })
+        });
     }
 
     store.dispatch({
@@ -276,57 +276,14 @@ function onSubmit(event)
         payload:{
             codigo: null
         }
-    })
+    });
     
 }
 
 
-store.dispatch({
-    type: "producto-agregado",
-    payload:{
-        nombre: "prueba",
-        cantidad: 3,
-        precio: 10,
-        categoria: 2
-    }
-})
-
-store.dispatch({
-    type: "producto-modificado",
-    payload:{
-        codigo: 1,
-        nombre: "Producto 1 ya modificado",
-        cantidad: 6,
-        precio: 8,
-        categoria: 3
-    }
-})
 
 
-store.dispatch({
-    type: "producto-agregado",
-    payload:{
-        nombre: "prueba 3",
-        cantidad: 26,
-        precio: 18,
-        categoria: 3
-    }
-})
 
 
-store.dispatch({
-    type: "producto-agregado",
-    payload:{
-        nombre: "Tercer Producto",
-        cantidad: 60,
-        precio: 10,
-        categoria: 4
-    }
-})
 
-store.dispatch({
-    type: "producto-eliminado",
-    payload: {
-        codigo: 2
-    }
-})
+
