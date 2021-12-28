@@ -70,3 +70,37 @@ const reducer = (state, action) => {
     return state;
 };
 
+//action builder - Como hay dispatch repetidos, se hace una funcion 
+//y el type va a ser un metodo de la funcion
+//para que la arrow function devuelva un objeto, el cuerpo se encierra entre paréntesis
+
+const productoSeleccionado = (codigo) => (
+    {
+    type: "producto-seleccionado",
+    payload: {
+        codigo
+    } 
+});
+
+
+//action builder producto-eliminado
+const productoEliminado = (codigo) => (
+    {
+        type: "producto-eliminado",
+        payload:{
+            codigo
+        }
+});
+
+const productoModificado = (payload) => ({
+    type: "producto-modificado",
+    payload
+});
+
+//se le puso el mismo objeto al parametro para poder colocar solo payload y no tener que 
+//escribir el objeto como en los anteriores
+
+const productoAgregado = (payload) => ({
+    type: "producto-agregado",
+    payload
+})

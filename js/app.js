@@ -18,41 +18,28 @@ store.subscribe(() => {
     }
 });
 
-ui.onFormSubmit = (payload) => {
-    if(payload.codigo)
+ui.onFormSubmit = (producto) => {
+    if(producto.codigo)
     {
-        store.dispatch({
-            type: "producto-modificado",
-            payload
-        })
+        store.dispatch(productoModificado(producto));
     }
     else{
-        store.dispatch({
-            type: "producto-agregado",
-            payload
-        });
+        store.dispatch(productoAgregado(producto));
     }
 
-    store.dispatch({
-        type: "producto-seleccionado",
-        payload:{
-            codigo: null
-        }
-    });
+    store.dispatch(productoSeleccionado(null)); //se hizo un action builder en store.js que devuelve el objeto igual que los otros dispatch
 }
 
 ui.onEliminarClick = (codigo) =>
 {
-    store.dispatch({
-        type: "producto-eliminado",
-        payload:{codigo}
-    });
+    store.dispatch(productoEliminado(codigo));
 }
 
-ui.onEditarClick = (codigo) =>
+/* ui.onEditarClick = (codigo) =>
 {
-        store.dispatch({
-            type: "producto-seleccionado",
-            payload:{codigo}
-        });
-}
+        store.dispatch(productoSeleccionado(codigo));
+} */
+//tambien se utilizó el action builder que está en store.js
+
+//el bloque comentado arriba se resume de la siguiente forma de arrow function
+ui.onEditarClick = (codigo) => store.dispatch(productoSeleccionado(codigo));
